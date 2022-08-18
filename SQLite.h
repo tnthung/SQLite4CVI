@@ -4,6 +4,9 @@
 #endif
 
 
+#define NULL_SQL_CALLBACK (SqlCallback)0
+
+
 typedef int (* SqlCallback)(
   void*,      // the fourth argument of sqlite3_exec() will be passed here 
   int,        // number of columns in the result set
