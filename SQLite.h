@@ -7,8 +7,8 @@
 typedef int (* SqlCallback)(
   void*,      // the fourth argument of sqlite3_exec() will be passed here 
   int,        // number of columns in the result set
-  void**,     // array of strings representing fields in the row
-  void**);    // array of strings representing column names
+  char**,     // array of strings representing fields in the row
+  char**);    // array of strings representing column names
 
 
 typedef struct SqlDB
