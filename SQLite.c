@@ -9,7 +9,7 @@ int openDB(
   char        *dbName, 
   SqlCallback  callback)
 {
-  int  hasPath;
+  int  hasPath, result;
   char tmpPath[256];
 
   if (db->inited)
@@ -20,11 +20,34 @@ int openDB(
   if (hasPath) 
     sprintf(
       db->path, 
-      "%s\\%s", 
+      "%s/%s\0", 
       basePath, 
       dbName);
 
-  return sqlite3_open(hasPath ? db->path : 0, &(db->db));
+  result = sqlite3_open(
+    hasPath ? db->path : 0, 
+    &(db->db));
+
+  if (result != SQLITE_OK && hasPath)
+  {
+    sprintf(
+      tmpPath, 
+      "mkdir \"%s\"\0", 
+      basePath);
+
+    system(tmpPath);
+
+    result = sqlite3_open(
+      db->path, 
+      &(db->db));
+  }
+
+  if (result == SQLITE_OK) {
+    db->inited   = 1;
+    db->callback = callback;
+  }
+
+  return result;
 }
 
 
