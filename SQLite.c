@@ -17,11 +17,12 @@ int openDB(
 
   hasPath = basePath != NULL && dbName != NULL;
 
-  if (hasPath) sprintf(
-    db->path, 
-    "%s\\%s", 
-    basePath, 
-    dbName);
+  if (hasPath) 
+    sprintf(
+      db->path, 
+      "%s\\%s", 
+      basePath, 
+      dbName);
 
   return sqlite3_open(hasPath ? db->path : 0, &(db->db));
 }
