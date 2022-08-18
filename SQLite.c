@@ -17,18 +17,7 @@ int openDB(
 
   hasPath = basePath != NULL && dbName != NULL;
 
-  if (hasPath) 
-    sprintf(
-      db->path, 
-      "%s/%s\0", 
-      basePath, 
-      dbName);
-
-  result = sqlite3_open(
-    hasPath ? db->path : 0, 
-    &(db->db));
-
-  if (result != SQLITE_OK && hasPath)
+  if (hasPath)
   {
     sprintf(
       tmpPath, 
@@ -37,10 +26,16 @@ int openDB(
 
     system(tmpPath);
 
-    result = sqlite3_open(
+    sprintf(
       db->path, 
-      &(db->db));
+      "%s/%s\0", 
+      basePath, 
+      dbName);
   }
+
+  result = sqlite3_open(
+    hasPath ? db->path : 0, 
+    &(db->db));
 
   if (result == SQLITE_OK) {
     db->inited   = 1;
